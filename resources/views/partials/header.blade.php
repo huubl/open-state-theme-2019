@@ -19,19 +19,19 @@
           <a class="navbar-brand mr-0" href="{{ home_url('/') }}">
             @if (!is_front_page())
               @if (get_bloginfo("language") == 'en-US')
-                <img class="navbar-brand-img img-fluid" src="@asset('images/Open-state-foundation-logo-tagline-en.svg')">
+                <img class="navbar-brand-img img-fluid" src="@asset('images/Open-state-foundation-logo-tagline-en.svg')" alt="Open State Foundation - open data, transparent society">
               @else
-                <img class="navbar-brand-img img-fluid" src="@asset('images/Open-state-foundation-logo-tagline-nl.svg')">
+                <img class="navbar-brand-img img-fluid" src="@asset('images/Open-state-foundation-logo-tagline-nl.svg')" alt="Open State Foundation - open data, transparante samenleving">
               @endif
             @else
-              <img class="navbar-brand-img img-fluid" src="@asset('images/Open-state-foundation-logo.svg')">
+              <img class="navbar-brand-img img-fluid" src="@asset('images/Open-state-foundation-logo.svg')" alt="Open State Foundation">
             @endif
           </a>
         </div>
 
         <div class="col-3 col-sm-2 col-lg-1 offset-lg-3 text-right">
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="menu-text">MENU</a>
+            <span class="menu-text">MENU</span>
           </button>
         </div>
 
@@ -41,7 +41,7 @@
           $lang_text = 'NL/<b>EN</b>';
           $lang_search_text = 'Search';
           $lang_contact = 'Contact us';
-          if (get_bloginfo("language") == 'nl') {
+          if (get_bloginfo("language") == 'nl-NL') {
             $lang = 'en';
             $lang_text = '<b>NL</b>/EN';
             $lang_search_text = 'Zoeken';
@@ -60,46 +60,48 @@
                   <div class="col-10 col-sm-10 offset-sm-1 inner-menu">
                     <ul id="%1$s" class="%2$s">%3$s</ul>
                   </div>
-                  <div class="col-2 col-sm-1 menu-icons rm-gutter">
+                  <div class="col-2 col-sm-1 menu-icons rm-gutter-left">
                     <div class="row">
-                      <div class="col-12">
+                      <div class="col-12 rm-gutter">
                         <div class="language mx-auto">
                           <a href="' . $qtranslate_slug->get_current_url($lang) . '">' . $lang_text . '</a>
                         </div>
                       </div>
-                      <div class="col-12 search-menu-col">
-                        <hr class="search-menu-hr">
+                      <div class="col-12 search-menu-col rm-gutter">
+                        <hr class="search-menu-hr mx-auto">
                         <div class="custom-search text-center">
-                          <span>
-                            <form method="GET" action="/" role="search">
-                              <input type="search" class="form-control" id="search-menu-icon" name="s">
-                            </form>
-                          </span>
+                          <form method="GET" action="/" role="search">
+                            <input type="search" class="form-control" id="search-menu-icon" name="s">
+                          </form>
                         </div>
                       </div>
-                      <div class="col-12 search-menu-text text-center">
+                      <div class="col-12 search-menu-text text-center rm-gutter">
                         ' . $lang_search_text . '
-                        <hr class="search-menu-hr">
+                        <hr class="search-menu-hr mx-auto">
                       </div>
                       <div class="col-12 text-center menu-icon">
                         <a class="d-md-none" href="/contact/" title="' . $lang_contact . ' "><i class="far fa-envelope"></i></a>
                         <a class="d-none d-md-block" href="/contact/" title="' . $lang_contact . ' "><i class="far fa-2x fa-envelope"></i></a>
                       </div>
                       <div class="col-12 text-center menu-icon">
-                        <a class="d-md-none" href="https://slack.hackdeoverheid.nl/" title="Hack de Overheid community Slack" target="_blank" rel="noopener"><i class="fab fa-slack"></i></a>
-                        <a class="d-none d-md-block" href="https://slack.hackdeoverheid.nl/" title="Hack de Overheid community Slack" target="_blank" rel="noopener"><i class="fab fa-2x fa-slack"></i></a>
+                        <a class="d-md-none" href="https://join.slack.com/t/hackdeoverheid/shared_invite/zt-1uf4fks3o-1zId60CY_5sSyYza0NSwAQ" title="Hack de Overheid community Slack" target="_blank" rel="noopener"><i class="fab fa-slack"></i></a>
+                        <a class="d-none d-md-block" href="https://join.slack.com/t/hackdeoverheid/shared_invite/zt-1uf4fks3o-1zId60CY_5sSyYza0NSwAQ" title="Hack de Overheid community Slack" target="_blank" rel="noopener"><i class="fab fa-2x fa-slack"></i></a>
                       </div>
                       <div class="col-12 text-center menu-icon">
                         <a class="d-md-none" href="https://openstate.eu/feed/" title="RSS" target="_blank" rel="noopener"><i class="fas fa-rss"></i></a>
                         <a class="d-none d-md-block" href="https://openstate.eu/feed/" title="RSS" target="_blank" rel="noopener"><i class="fas fa-2x fa-rss"></i></a>
                       </div>
                       <div class="col-12 text-center menu-icon">
+                        <a class="d-md-none" href="https://mastodon.nl/@openstate" title="Mastodon" target="_blank" rel="noopener"><i class="fab fa-mastodon"></i></a>
+                        <a class="d-none d-md-block" href="https://mastodon.nl/@openstate" title="Mastodon" target="_blank" rel="noopener"><i class="fab fa-2x fa-mastodon"></i></a>
+                      </div>
+                      <div class="col-12 text-center menu-icon">
                         <a class="d-md-none" href="https://twitter.com/openstateeu" title="Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
                         <a class="d-none d-md-block" href="https://twitter.com/openstateeu" title="Twitter" target="_blank" rel="noopener"><i class="fab fa-2x fa-twitter"></i></a>
                       </div>
                       <div class="col-12 text-center menu-icon">
-                        <a class="d-md-none" href="https://www.facebook.com/openstatefoundation" title="Facebook" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
-                        <a class="d-none d-md-block" href="https://www.facebook.com/openstatefoundation" title="Facebook" target="_blank" rel="noopener"><i class="fab fa-2x fa-facebook-f"></i></a>
+                        <a class="d-md-none" href="https://www.linkedin.com/company/open-state-foundation/" title="LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+                        <a class="d-none d-md-block" href="https://www.linkedin.com/company/open-state-foundation/" title="LinkedIn" target="_blank" rel="noopener"><i class="fab fa-2x fa-linkedin"></i></a>
                       </div>
                       <div class="col-12 text-center menu-icon">
                         <a class="d-md-none" href="https://www.meetup.com/Hackdeoverheid-Meetups/" title="Hack de Overheid Meetup" target="_blank" rel="noopener"><i class="fab fa-meetup"></i></a>

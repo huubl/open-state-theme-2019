@@ -1,6 +1,16 @@
 .nav-top {
   padding-top: 2px;
   padding-bottom: 0;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 0.125rem 0.25rem 0;
+}
+
+.navbar {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.top-menu-text {
+  flex: 1;
 }
 
 .top-projects-tools-data a {
@@ -47,11 +57,6 @@
   /* stylelint-enable */
 }
 
-.top-projects-tools-data svg,
-.top-donate svg {
-  float: right;
-}
-
 .breadcrumbs-parent {
   font-size: 0;
   height: 0;
@@ -85,10 +90,28 @@
   li {
     max-width: 300px;
   }
+
+  // Swap the order of the icons
+  a {
+    display: flex;
+    align-items: center;
+
+    :nth-child(1) {
+      order: 1;
+    }
+
+    :nth-child(2) {
+      order: 3;
+    }
+
+    :nth-child(3) {
+      order: 2;
+    }
+  }
 }
 
 body {
-  padding-top: 118px;
+  padding-top: 118px !important;
 }
 
 .navbar-brand-img {
@@ -103,6 +126,18 @@ body {
 .navbar-toggler {
   padding-left: 0;
   padding-right: 0;
+}
+
+.navbar-collapse {
+  max-height: 82vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 15px;
+}
+
+.collapsing {
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .menu-text {
@@ -125,6 +160,7 @@ body {
   border-top: 1px solid $zwart;
   border-bottom: none;
   margin: 1px;
+  width: 70%;
 }
 
 .search-menu-text {
@@ -226,11 +262,11 @@ body {
       svg {
         float: right;
       }
-      /* stylelint-enable */
 
       a:hover {
         color: white;
       }
+      /* stylelint-enable */
     }
 
     /* stylelint-disable */
@@ -360,13 +396,8 @@ body {
   }
 }
 
-// Hack to fix icons in top menu buttons moving outside of the button when there is no space left
 @media (max-width: 920px) {
-  #menu-top-menu {
-    max-width: 213px;
-  }
-
-  // Also drop the osf-schema a bit
+  // Drop the osf-schema a bit
   .osf-schema {
     padding-top: 70px;
   }
@@ -394,7 +425,7 @@ body {
       .menu-button {
         font-size: 18px;
         line-height: 18px;
-        width: 180px;
+        width: 200px;
       }
 
       .menu-button-contact {
@@ -437,9 +468,11 @@ body {
 
   #search-menu-icon {
     background-size: 20px 20px;
+    left: 40%;
     height: 20px;
 
     &:focus {
+      left: 0;
       height: 44px;
       z-index: 100;
     }

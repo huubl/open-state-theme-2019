@@ -14,7 +14,7 @@
         @include('partials.content-page')
       </div>
     </header>
-    <div class="container-fluid bg-grijsblauw">
+    <div id="donatieformulier" class="container-fluid bg-grijsblauw">
       <div class="row">
         <div class="container">
           <div class="row padding-top-50 padding-bottom-40">
@@ -146,6 +146,164 @@
     </div>
     <div class="d-none">
       {!! do_shortcode( '[doneren_met_mollie]' ) !!}
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <br>
+          <div>
+            <h5 id="bedrijfsdonateurs">
+              <? _e("
+                <!--:nl-->
+                  Bedrijfsdonateurs
+                <!--:--><!--:en-->
+                  Corporate donors
+                <!--:-->
+              ") ?>
+            </h5>
+          </div>
+          <br>
+          <p>
+            <b style="font-size: 30px;">
+              <? _e("
+                <!--:nl-->
+                  We staan open voor bedrijfsdonateurs!
+                <!--:--><!--:en-->
+                  We are open for corporate donors!
+                <!--:-->
+              ") ?>
+            </b>
+          </p>
+          <p>
+            <? _e("
+              <!--:nl-->
+              <!--:--><!--:en-->
+              <!--:-->
+            ") ?>
+            <? _e("
+              <!--:nl-->
+                Wil je met jouw bedrijf doneren aan Open State Foundation? Bekijk dan onze <a href='https://openstate.eu/wp-content/uploads/sites/14/2022/09/Open-State-Foundation-Bedrijfsdonateurs-propositie.pdf' target='blank'><b>propositie</b></a>!
+              <!--:--><!--:en-->
+                Would you like your company to donate to Open State Foundation? Then take a look at our <a href='https://openstate.eu/wp-content/uploads/sites/14/2022/09/Open-State-Foundation-Bedrijfsdonateurs-propositie.pdf' target='_blank'><b>proposition</b></a>!
+              <!--:-->
+            ") ?>
+          </p>
+          <div>
+            <b>
+              <? _e("
+                <!--:nl-->
+                  Open World-donateurs
+                <!--:--><!--:en-->
+                  Open World-donors
+                <!--:-->
+              ") ?>
+            </b>
+            <p>
+              <? _e("
+                <!--:nl-->
+                  €5.000 of meer per jaar (niet meer dan 10% van onze continuïteitsreserve).
+                <!--:--><!--:en-->
+                  €5,000 or more per year (not more than 10% of our continuity reserve).
+                <!--:-->
+              ") ?>
+            </p>
+            <div class="container">
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <p>
+                    <a href="https://www.centric.eu/" target="_blank" rel="noopener">
+                      <img class="img-fluid" src="@asset('images/logo-centric.svg')" alt="Logo van Centric">
+                    </a>
+                  </p>
+                  <p><b>Centric</b></p>
+                  <? _e("
+                    <!--:nl-->
+                      <p>Centric is een ervaren en betrokken IT-partner voor gemeentelijke instellingen. Met onze applicaties en services ondersteunen we de decentrale overheid al meer dan 25 jaar in ieder beleidsveld.</p>
+                    <!--:--><!--:en-->
+                      <p>Centric is an experienced and committed IT partner for municipal institutions. With our applications and services, we have been supporting decentralized government in every policy area for more than 25 years.</p>
+                    <!--:-->
+                  ") ?>
+                  <p>
+                    <a href="https://www.centric.eu/" target="_blank" rel="noopener">centric.eu</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div>
+            <b>
+              <? _e("
+                <!--:nl-->
+                  Open State-donateurs
+                <!--:--><!--:en-->
+                  Open State-donors
+                <!--:-->
+              ") ?>
+            </b>
+            <p>
+              <? _e("
+                <!--:nl-->
+                  €1.000 - €5.000 per jaar.
+                <!--:--><!--:en-->
+                  €1,000 - €5,000 per year.
+                <!--:-->
+              ") ?>
+            </p>
+            <div class="container">
+              <div class="row">
+                <div class="col-12 col-md-4">
+                  <i>
+                    <? _e("
+                      <!--:nl-->
+                        Wordt jouw bedrijf de eerste Open State-donateur? Dan tonen we hier jouw logo, bedrijfsnaam, beschrijving en link naar je website.
+                      <!--:--><!--:en-->
+                        Will your company be the first Open State-donor? Then we will show your logo, company name, description and link to your website.
+                      <!--:-->
+                    ") ?>
+                  </i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div>
+            <b>
+              <? _e("
+                <!--:nl-->
+                  Open Street-donateurs
+                <!--:--><!--:en-->
+                  Open Street-donors
+                <!--:-->
+              ") ?>
+            </b>
+            <p>
+              <? _e("
+                <!--:nl-->
+                  €500 - €1.000 per jaar.
+                <!--:--><!--:en-->
+                  €500 - €1,000 per year.
+                <!--:-->
+              ") ?>
+            </p>
+            <div class="container">
+              <div class="row">
+                <div class="col-12 col-md-4">
+                  <i>
+                    <? _e("
+                      <!--:nl-->
+                        Wordt jouw bedrijf de eerste Open Street-donateur? Dan tonen we hier jouw bedrijfsnaam en een link naar je website.
+                      <!--:--><!--:en-->
+                        Will your company be the first Open Street-donor? Then we will show your company name and a link to your website.
+                      <!--:-->
+                    ") ?>
+                  </i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <script>
       window.onload=function() {

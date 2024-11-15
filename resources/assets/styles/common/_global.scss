@@ -8,9 +8,13 @@ body {
   letter-spacing: 0.01em;
   line-height: 32px;
 
+  a {
+    text-decoration: none !important;
+  }
+
   a:hover {
     color: $paars;
-    text-decoration: underline;
+    text-decoration: underline !important;
   }
 }
 
@@ -78,18 +82,18 @@ h6 {
   }
 
   h1 {
-    font-size: 60px;
-    line-height: 65px;
+    font-size: 26px;
+    line-height: 36px;
   }
 
   h2 {
-    font-size: 26px;
-    line-height: 36px;
+    font-size: 25px;
+    line-height: 35px;
   }
 
   h3 {
-    font-size: 26px;
-    line-height: 36px;
+    font-size: 24px;
+    line-height: 34px;
   }
 
   h4 {
@@ -118,6 +122,15 @@ nav li:not(.btn).active a:not(.btn) {
 
   &:hover {
     color: $paars;
+  }
+}
+
+// Make space for the WordPress admin bar when logged in
+.admin-bar .fixed-top {
+  top: 46px;
+
+  @media (min-width: 783px) {
+    top: 32px;
   }
 }
 
@@ -186,6 +199,21 @@ nav li:not(.btn).active a:not(.btn) {
 
 .bg-lichtblauw {
   background-color: $lichtblauw;
+}
+
+.image-credit-div {
+  margin-bottom: -32px;
+}
+
+.image-credit {
+  position: relative;
+  top: -52px;
+  left: -3px;
+  margin-bottom: -40px;
+  background-color: #73247555;
+  border-color: #732475aa;
+  border-radius: 30px;
+  font-size: 12px;
 }
 
 .overlay-container {

@@ -151,3 +151,159 @@ add_filter('facetwp_is_main_query', function($is_main_query, $query) {
     }
     return $is_main_query;
 }, 10, 2 );
+
+// Add credit to an image
+function add_credit_to_image($matches, $featured_image=false, $post_thumbnail_id='') {
+	if ($featured_image) {
+		$return = $matches;
+	} else {
+		$return = $matches[0];
+		preg_match('/wp-image-([0-9]+)/', $return, $match);
+		$post_thumbnail_id = $match[1];
+	}
+	$return_block = '';
+
+	if (get_post_meta($post_thumbnail_id, 'license_url', true)) {
+		$license_url     = get_post_meta( $post_thumbnail_id, 'license_url', true );
+		$license_url     = strtolower( $license_url );
+		$attribution_url = get_post_meta( $post_thumbnail_id, 'attribution_url', true );
+		$source_work_url = get_post_meta( $post_thumbnail_id, 'source_work_url', true );
+		$extras_url      = get_post_meta( $post_thumbnail_id, 'extra_permissions_url', true );
+		// Unfiltered.
+		$meta   = wp_get_attachment_metadata( $post_thumbnail_id, true );
+		$credit = get_post_meta( $post_thumbnail_id, 'attribution_name', true );
+		if ( ( ! $credit )
+			&& isset( $image_metadata['credit'] )
+		) {
+			$credit = $meta['image_meta']['credit'];
+		}
+		$title = get_the_title( $post_thumbnail_id );
+		if ( ! $title ) {
+			$title = $meta['image_meta']['title'];
+		}
+		if ( ! $title ) {
+			$title = $fallback_title;
+		}
+		if ( strpos( $license_url, 'creativecommons' ) ) {
+			if ( substr( $license_url, -1 ) != '/' ) {
+				$license_url = $license_url . '/';
+			}
+		}
+		if ( $license_url ) {
+			$license_name = \CreativeCommonsImage::license_name( $license_url );
+			$button_url   = \CreativeCommonsImage::license_button_url( $license_url );
+		}
+		// RDF stuff.
+		if ( $license_url ) {
+			$license_button_url = \CreativeCommonsImage::license_button_url( $license_url );
+			$l                  = \CreativeCommons::get_instance();
+			$html_rdfa = $l->license_html_rdfa(
+				$license_url,
+				$license_name,
+				$license_button_url,
+				$title,
+				true, // is_singular.
+				$attribution_url,
+				$credit,
+				$source_work_url,
+				$extras_url,
+				'',
+				'',
+				'',
+				$credit,
+				$attribution_url
+			); // warning_text.
+			//$button = \CreativeCommonsButton::get_instance()->markup(
+			//	$html_rdfa,
+			//	false,
+			//	31,
+			//	false
+			//);
+			$block = $button;
+			$block = '<!-- RDFa! -->' . $html_rdfa . '<!-- end of RDFa! -->';
+		} else {
+			if ( $title ) {
+				if ( $credit ) {
+					$block .= '<p>( ' . $title . ' by ' . $credit . ')</p>';
+				} else {
+					$block .= '<p>( ' . $title . ')</p>';
+				}
+			}
+		}
+		$return_block .= $block;
+
+		$modal = '
+		<button type="button" class="btn btn-primary image-credit" data-toggle="modal" data-target="#creditModal' . $match[1] .'">
+		  i
+		</button>
+
+		<div class="text-left modal fade" id="creditModal' . $match[1] . '" tabindex="-1" role="dialog" aria-labelledby="creditModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-body">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      ' . $return_block . '
+		      </div>
+		    </div>
+		  </div>
+		</div>';
+
+		$return = '<div class="image-credit-div text-right">' . $return . $modal . '</div>';
+	}
+
+	return $return;
+}
+
+// Add credits to images in post/page content
+add_filter('the_content', function($content) {
+	if (class_exists('CreativeCommons')) {
+		return preg_replace_callback(
+			'/(<\s*img[^>]+)(src\s*=\s*"[^"]+")([^>]+>)/i',
+			'\App\add_credit_to_image',
+			$content
+		);
+	} else {
+		return $content;
+	}
+}, 10, 2);
+
+function in_array_any($needles, $haystack) {
+    return (bool)array_intersect($needles, $haystack);
+}
+
+// Add credits to featured images, excluding some pages
+add_filter('post_thumbnail_html', function($html, $post_id, $post_thumbnail_id, $size, $attr) {
+	$classes = get_body_class();
+	if (in_array_any(array('home', 'search', 'page-news-archive-data', 'page-template-projects'), $classes)) {
+		return $html;
+	} elseif (class_exists('CreativeCommons')) {
+		return add_credit_to_image($html, true, $post_thumbnail_id);
+	} else {
+		return $html;
+	}
+}, 10, 5);
+
+// Catch Mollie donation webhook, request payment details from their API and send an email to us
+add_action('do_parse_request', function($do_parse, $wp) {
+    $current_path = esc_url_raw(add_query_arg([]));
+
+    if (strpos($current_path, 'dmm-webhook')) {
+        $apikey = get_option('dmm_mollie_apikey');
+
+        $args = array(
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $apikey
+            )
+        );
+        $payment_response = wp_remote_get('https://api.mollie.com/v2/payments/' . $_POST['id'], $args);
+        $payment_json = json_decode(wp_remote_retrieve_body($payment_response));
+
+        $customer_response = wp_remote_get('https://api.mollie.com/v2/customers/' . $payment_json->customerId, $args);        $customer_json = json_decode(wp_remote_retrieve_body($customer_response));
+
+        wp_mail(get_option('admin_email'), 'Donatie aan Open State Foundation', "Donatie aan Open State Foundation\n\nStatus: $payment_json->status\nEenmalig/periodiek: $payment_json->sequenceType\nBedrag (€): " . $payment_json->amount->value . "\nBericht: $payment_json->description\nNaam: " . $customer_json->name . "\nE-mail: " . $customer_json->email . "\nPayment ID: $payment_json->id");
+    }
+
+    return $do_parse;
+}, 30, 2);

@@ -6,7 +6,7 @@ import getpass
 GIT_REPO = 'open-state-theme-2019'
 
 # Path of the directory
-DIR = '/home/projects/wordpress-new/wp-content/themes/%s' % (GIT_REPO)
+DIR = '/home/projects/wordpress/wp-content/themes/%s' % (GIT_REPO)
 
 # Container used to compile the assets
 NODE_CONTAINER = '%s_node_1' % (GIT_REPO)
@@ -16,15 +16,14 @@ SERVER = 'Oxygen'
 
 
 @task
-def deploy(c):
+def deploy_and_compile(c):
     sudo_pass = getpass.getpass("Enter your sudo password on %s: " % SERVER)
     config = Config(overrides={'sudo': {'password': sudo_pass}})
     c = Connection(SERVER, config=config)
 
     c.sudo(
-        'bash -c "cd %s && git pull git@github.com:openstate/%s.git"' % (
-            DIR,
-            GIT_REPO
+        'bash -c "cd %s && git pull"' % (
+            DIR
         )
     )
     output = c.sudo(
@@ -38,3 +37,16 @@ def deploy(c):
             )
         )
     c.sudo('docker exec %s yarn build:production' % (NODE_CONTAINER))
+
+
+@task
+def deploy_pull_only(c):
+    sudo_pass = getpass.getpass("Enter your sudo password on %s: " % SERVER)
+    config = Config(overrides={'sudo': {'password': sudo_pass}})
+    c = Connection(SERVER, config=config)
+
+    c.sudo(
+        'bash -c "cd %s && git pull"' % (
+            DIR
+        )
+    )

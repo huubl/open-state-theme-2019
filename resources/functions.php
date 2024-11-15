@@ -136,3 +136,41 @@ function set_posts_per_page($query) {
   return $query;
 }
 add_action('pre_get_posts', 'set_posts_per_page');
+
+// Allow videos and SVG to be uploaded
+add_filter('mime_types', 'extend_mime_types');
+function extend_mime_types( $existing_mimes=array() ) {
+    // Add webm, mp4, OGG and SVG to the list of mime types;
+    // Some mime types can/must also be set via
+    // My Sites -> Network Admin -> Settings
+    $existing_mimes['webm'] = 'video/webm';
+    $existing_mimes['mp4']  = 'video/mp4';
+    $existing_mimes['ogg']  = 'video/ogg';
+    $existing_mimes['svg']  = 'image/svg+xml';
+
+    // Return an array now including our added mime types
+    return $existing_mimes;
+}
+
+// Some custom code for Kieswijzerposts
+// https://openstate.eu/nl/2023/11/open-overheid-kieswijzer-2023/
+// https://openstate.eu/nl/2024/05/open-europees-parlementskieswijzer-2024/
+function ti_custom_javascript() {
+    if (is_single ('11830') || is_single('12253')) {
+        remove_filter('the_content', 'wptexturize');
+        ?>
+            <script type="text/javascript">
+                jQuery(function () {
+                    jQuery('[data-toggle="tooltip"]').tooltip({
+                        html: true,
+                        animation: false,
+                        placement: 'bottom',
+                        template: '<div class="tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner" style="max-width: 450px; text-align: start"></div></div>',
+                        sanitize: false
+                    });
+                });
+            </script>
+        <?php
+    }
+}
+add_action('wp_head', 'ti_custom_javascript');
